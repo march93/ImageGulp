@@ -11,20 +11,49 @@ import {
 import Camera from 'react-native-camera';
 
 class ImageGulp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cameraType : 'back',
+      mirrorMode : false
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
             <Camera
                 ref={(cam) => {this.camera = cam;}}
                 style={styles.preview}
+                type={this.state.cameraType}
+                mirrorImage={this.state.mirrorMode}
                 aspect={Camera.constants.Aspect.fill}>
+
+                <Text style={styles.capture} onPress={this.switchCameraType.bind(this)}>
+                  [Switch Camera]
+                </Text>
 
                 <TouchableHighlight style={styles.capture} onPress={this.takePicture.bind(this)} underlayColor="rgba(255, 255, 255, 0.5)">
                     <View />
                 </TouchableHighlight>
+
             </Camera>
       </View>
     );
+  }
+
+  switchCameraType() {
+    if (this.state.cameraType === 'back') {
+      this.setState({
+        cameraType: 'front',
+        mirrorMode: true
+      })
+    } else {
+      this.setState({
+        cameraType: 'back',
+        mirrorMode: false
+      })
+    }
   }
 
   takePicture() {
