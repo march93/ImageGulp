@@ -12,7 +12,8 @@ import {
   StyleSheet,
   Text,
   TouchableHighlight,
-  View
+  View,
+  Button
 } from 'react-native';
 import Camera from 'react-native-camera';
 
@@ -20,14 +21,15 @@ class ImageGulp extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Camera
-          ref={(cam) => {
-            this.camera = cam;
-          }}
-          style={styles.preview}
-          aspect={Camera.constants.Aspect.fill}>
-          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
-        </Camera>
+            <Camera
+                ref={(cam) => {this.camera = cam;}}
+                style={styles.preview}
+                aspect={Camera.constants.Aspect.fill}>
+
+                <TouchableHighlight style={styles.capture} onPress={this.takePicture.bind(this)} underlayColor="rgba(255, 255, 255, 0.5)">
+                    <View />
+                </TouchableHighlight>
+            </Camera>
       </View>
     );
   }
@@ -52,12 +54,12 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   capture: {
-    flex: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    color: '#000',
-    padding: 10,
-    margin: 40
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    borderWidth: 5,
+    borderColor: '#FFF',
+    marginBottom: 15,
   }
 });
 
