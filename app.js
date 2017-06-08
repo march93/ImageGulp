@@ -27,7 +27,8 @@ class ImageGulp extends Component {
                 style={styles.preview}
                 type={this.state.cameraType}
                 mirrorImage={this.state.mirrorMode}
-                aspect={Camera.constants.Aspect.fill}>
+                aspect={Camera.constants.Aspect.fit}
+                playSoundOnCapture={true}>
 
                 <Text style={styles.capture} onPress={this.switchCameraType.bind(this)}>
                   [Switch Camera]
