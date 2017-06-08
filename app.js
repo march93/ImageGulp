@@ -27,11 +27,11 @@ class ImageGulp extends Component {
                 style={styles.preview}
                 type={this.state.cameraType}
                 mirrorImage={this.state.mirrorMode}
-                aspect={Camera.constants.Aspect.fit}
+                aspect={Camera.constants.Aspect.stretch}
                 playSoundOnCapture={true}>
 
                 <Text style={styles.capture} onPress={this.switchCameraType.bind(this)}>
-                  [Switch Camera]
+                  [{Dimensions.get('window').width}]
                 </Text>
 
                 <TouchableHighlight style={styles.capture} onPress={this.takePicture.bind(this)} underlayColor="rgba(255, 255, 255, 0.5)">
@@ -55,6 +55,7 @@ class ImageGulp extends Component {
         mirrorMode: false
       })
     }
+    console.log(Dimensions.get('window').height, Dimensions.get('window').width);
   }
 
   takePicture() {
@@ -70,11 +71,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
+    width: Dimensions.get('window').width * 1.20 // Offset of 70px from the Nexus 5's native width of 360.
   },
   preview: {
     flex: 1,
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   capture: {
     width: 70,
