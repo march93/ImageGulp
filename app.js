@@ -28,7 +28,8 @@ class ImageGulp extends Component {
                 type={this.state.cameraType}
                 mirrorImage={this.state.mirrorMode}
                 aspect={Camera.constants.Aspect.stretch}
-                playSoundOnCapture={true}>
+                playSoundOnCapture={true}
+                captureTarget={Camera.constants.CaptureTarget.memory}>
 
                 <Text style={styles.capture} onPress={this.switchCameraType.bind(this)}>
                   [{Dimensions.get('window').width}]
@@ -59,10 +60,37 @@ class ImageGulp extends Component {
   }
 
   takePicture() {
-    const options = {};
+  //   const options = {
+		// target: Camera.constants.CaptureTarget.memory
+  //   };
     //options.location = ...
-    this.camera.capture({metadata: options})
-      .then((data) => console.log(data))
+    this.camera.capture(target=Camera.constants.CaptureTarget.memory)
+      .then((return_val) => {
+      	// Do fetch thing.
+		let req_body = {
+			requests: [
+				{
+					image: {
+						content: return_val.data
+					},
+					features: [
+						{
+							type: TYPE_UNSPECIFIED
+						}
+					]
+				}
+			]
+		}
+
+      	fetch('https://vision.googleapis.com/v1/images:annotate?key=API_KEY',
+      		method: 'post',
+      		body: req_body)
+
+      })
+      .then((response) => {
+      	response.responses[0].fullTextAnnotation
+      		//
+      })
       .catch(err => console.error(err));
   }
 }
