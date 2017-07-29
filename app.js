@@ -22,41 +22,51 @@ class ImageGulp extends Component {
   render() {
     return (
       <View style={styles.container}>
-            <Camera
-                ref={(cam) => {this.camera = cam;}}
-                style={styles.preview}
-                type={this.state.cameraType}
-                mirrorImage={this.state.mirrorMode}
-                aspect={Camera.constants.Aspect.stretch}
-                playSoundOnCapture={true}
-                captureTarget={Camera.constants.CaptureTarget.memory}>
+            <View style={styles.cameraWrap}>
+                <Camera
+                    ref={(cam) => {this.camera = cam;}}
+                    style={styles.cameraView}
+                    type={this.state.cameraType}
+                    mirrorImage={this.state.mirrorMode}
+                    aspect={Camera.constants.Aspect.stretch}
+                    playSoundOnCapture={true}
+                    captureTarget={Camera.constants.CaptureTarget.memory}>
+                </Camera>
+            </View>
 
-                <Text style={styles.capture} onPress={this.switchCameraType.bind(this)}>
-                  [{Dimensions.get('window').width}]
-                </Text>
-
-                <TouchableHighlight style={styles.capture} onPress={this.takePicture.bind(this)} underlayColor="rgba(255, 255, 255, 0.5)">
+            <View style={styles.bottomBar}>
+                {/*<TouchableHighlight style={styles.capture} onPress={this.takePicture.bind(this)} underlayColor="rgba(255, 255, 255, 0.5)">
+                    <View />
+                </TouchableHighlight>*/}
+                <TouchableHighlight style={styles.capture} onPress={this.switchCameraType.bind(this)} underlayColor="rgba(255, 255, 255, 0.5)">
                     <View />
                 </TouchableHighlight>
+            </View>
 
-            </Camera>
+        {/*<View style={styles.bottomBar}>
+            <Text style={styles.capture} onPress={this.switchCameraType.bind(this)}></Text>
+
+            <TouchableHighlight style={styles.capture} onPress={this.takePicture.bind(this)} underlayColor="rgba(255, 255, 255, 0.5)">
+                <View />
+            </TouchableHighlight>
+        </View>          */}
       </View>
     );
   }
 
   switchCameraType() {
-    if (this.state.cameraType === 'back') {
-      this.setState({
-        cameraType: 'front',
-        mirrorMode: true
-      })
-    } else {
-      this.setState({
-        cameraType: 'back',
-        mirrorMode: false
-      })
-    }
-    console.log(Dimensions.get('window').height, Dimensions.get('window').width);
+        if (this.state.cameraType === 'back') {
+        this.setState({
+            cameraType: 'front',
+            mirrorMode: true
+        })
+        } else {
+        this.setState({
+            cameraType: 'back',
+            mirrorMode: false
+        })
+        }
+        console.log(Dimensions.get('window').height, Dimensions.get('window').width);
   }
 
   takePicture() {
@@ -98,10 +108,18 @@ class ImageGulp extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    width: Dimensions.get('window').width * 1.20 // Offset of 70px from the Nexus 5's native width of 360.
+    flexDirection: 'column',
+    // width: Dimensions.get('window').width * 1.20 // Offset of 70px from the Nexus 5's native width of 360.
+    // width: Dimensions.get('window').width / 2,
+    // height: Dimensions.get('window').height / 2
   },
-  preview: {
+  cameraWrap: {
+    borderColor: 'red',
+    borderWidth: 3,
+    height: Dimensions.get('window').height * 0.8,
+    zIndex: 1,
+  },
+  cameraView: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -113,6 +131,17 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: '#FFF',
     marginBottom: 15,
+    top: 15
+  },
+  bottomBar: {
+    flex: 1,
+    width: '100%',
+    height: Dimensions.get('window').height * 0.2,
+    backgroundColor: '#000',
+    alignItems: 'center',
+    borderColor: 'green',
+    borderWidth: 3,
+    zIndex: 100
   }
 });
 
