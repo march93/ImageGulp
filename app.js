@@ -35,12 +35,12 @@ class ImageGulp extends Component {
             </View>
 
             <View style={styles.bottomBar}>
-                {/*<TouchableHighlight style={styles.capture} onPress={this.takePicture.bind(this)} underlayColor="rgba(255, 255, 255, 0.5)">
-                    <View />
-                </TouchableHighlight>*/}
-                <TouchableHighlight style={styles.capture} onPress={this.switchCameraType.bind(this)} underlayColor="rgba(255, 255, 255, 0.5)">
+                <TouchableHighlight style={styles.capture} onPress={this.takePicture.bind(this)} underlayColor="rgba(255, 255, 255, 0.5)">
                     <View />
                 </TouchableHighlight>
+                {/*<TouchableHighlight style={styles.capture} onPress={this.switchCameraType.bind(this)} underlayColor="rgba(255, 255, 255, 0.5)">
+                    <View />
+                </TouchableHighlight>*/}
             </View>
 
         {/*<View style={styles.bottomBar}>
@@ -69,37 +69,36 @@ class ImageGulp extends Component {
         console.log(Dimensions.get('window').height, Dimensions.get('window').width);
   }
 
-  takePicture() {
-  //   const options = {
-		// target: Camera.constants.CaptureTarget.memory
-  //   };
+takePicture() {
+    // const options = {
+    //     target: Camera.constants.CaptureTarget.memory
+    // };
     //options.location = ...
-    this.camera.capture(target=Camera.constants.CaptureTarget.memory)
+    this.camera.capture({target: Camera.constants.CaptureTarget.memory})
       .then((return_val) => {
-      	// Do fetch thing.
-		let req_body = {
-			requests: [
-				{
-					image: {
-						content: return_val.data
-					},
-					features: [
-						{
-							type: TYPE_UNSPECIFIED
-						}
-					]
-				}
-			]
-		}
+          // Prepare request body.
+        let req_body = {
+          "requests": [
+            {
+              "image": {
+                "content": return_val.data
+              },
+              "features": [
+                {
+                  "type": "LABEL_DETECTION"
+                }
+              ]
+            }
+          ]
+        };
 
-      	fetch('https://vision.googleapis.com/v1/images:annotate?key=API_KEY',
-      		method: 'post',
-      		body: req_body)
+        // Actually send the request.
+        fetch('https://vision.googleapis.com/v1/images:annotate?key=API_KEY', 
+            {method: 'post', body: JSON.stringify(req_body)});
 
       })
       .then((response) => {
-      	response.responses[0].fullTextAnnotation
-      		//
+          console.log(response);
       })
       .catch(err => console.error(err));
   }
