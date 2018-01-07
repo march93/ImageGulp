@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import ImageGulp from './app';
+import App from './app/index';
 
-AppRegistry.registerComponent('ImageGulp', () => ImageGulp);
+AppRegistry.registerComponent('ImageGulp', () => App);
